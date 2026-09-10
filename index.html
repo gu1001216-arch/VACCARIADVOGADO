@@ -4195,7 +4195,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var pts = cortes(p), out = "", prev = 0, i, c;
     for(i = 0; i < pts.length; i++){
       c = pts[i];
-      if(c < 2 || p.length - c < 3) continue;         // nunca deixa 1 letra solta
+      if(c < 2 || p.length - c < 2) continue;         // nunca deixa 1 letra solta
       out += p.slice(prev, c) + SHY;
       prev = c;
     }
@@ -4222,7 +4222,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Parágrafos curtos não são justificados (é onde o vão fica pior).
     var bruto = (el.textContent || "").trim();
-    if(bruto.length && bruto.length < 90) el.classList.add("sem-justificar");
+    if(bruto.length && bruto.length < 105) el.classList.add("sem-justificar");
 
     var it = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false), n;
     var lista = [];
@@ -4441,6 +4441,113 @@ form[id^="formContato"] button[id^="btnEnviarFormulario"]:disabled{
   }
 })();
 </script>
+
+
+<style id="v9-ultima-linha-esquerda-e-espacos">
+/* ══════════════════════════════════════════════════════════════════════
+   V9 — três correções:
+   1) A última linha de cada parágrafo passa a ser alinhada à ESQUERDA
+      (antes ficava centralizada).
+   2) Título repetido no modal do formulário: o modal já tem o título no
+      cabeçalho, então o <h3> interno do formulário fica oculto lá dentro.
+   3) Espaços largos que sobraram: as caixas estreitas (aviso de
+      documentação, FAQ, formulário) ganham mais largura útil no celular e
+      os parágrafos curtos deixam de ser justificados.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1) ÚLTIMA LINHA À ESQUERDA ─────────────────────────────────────── */
+body main p:not(.rotulo):not(.form-status):not(.sem-justificar),
+body main .secao p:not(.sem-justificar),
+body main .sobre-dados p:not(.sem-justificar),
+body main .intro p:not(.sem-justificar),
+body main .editorial-corpo p:not(.sem-justificar),
+body main .duvida p:not(.sem-justificar),
+body main .aviso-doc p:not(.sem-justificar),
+body main .form-topo p:not(.sem-justificar),
+body main .entrada-txt p:not(.sem-justificar),
+body main .fase p:not(.sem-justificar),
+body main .doc-item p:not(.sem-justificar),
+body main .hero-sub:not(.sem-justificar),
+body main .hero-contato>p:not(.rotulo):not(.sem-justificar),
+body main .faq .resposta:not(.sem-justificar),
+body main .faq .resposta p:not(.sem-justificar){
+  text-align:justify!important;
+  text-align-last:left!important;
+  -webkit-hyphens:auto!important;
+  hyphens:auto!important;
+  /* volta ao algoritmo clássico: preenche a linha e hifeniza quando precisa */
+  text-wrap:wrap!important;
+}
+
+/* ── 2) PARÁGRAFOS CURTOS: alinhados à esquerda, sem justificar ─────── */
+body main p.sem-justificar:not(.rotulo):not(.form-status),
+body main .hero-sub.sem-justificar,
+body main .faq .resposta p.sem-justificar{
+  text-align:left!important;
+  text-align-last:left!important;
+  text-justify:none!important;
+  -webkit-hyphens:none!important;
+  hyphens:none!important;
+  text-wrap:pretty!important;
+  word-spacing:normal!important;
+}
+
+/* ── 3) FORMULÁRIO NO MODAL: sem título duplicado ───────────────────── */
+#formModalCorpo .form-topo h3,
+.form-modal-corpo .form-topo h3{
+  display:none!important;
+}
+.form-modal-corpo .form-topo{
+  padding-bottom:14px!important;
+  margin-bottom:16px!important;
+}
+.form-modal-corpo .form-topo p{
+  text-align:left!important;
+  text-align-last:left!important;
+  -webkit-hyphens:auto!important;
+  hyphens:auto!important;
+  max-width:none!important;
+}
+
+/* ── 4) MAIS LARGURA ÚTIL NAS CAIXAS ESTREITAS DO CELULAR ───────────── */
+@media (max-width:959px){
+  main .aviso-doc{
+    padding:22px 14px!important;
+    margin-left:-4px!important;
+    margin-right:-4px!important;
+  }
+  main .aviso-doc>p{
+    font-size:.95rem!important;
+    margin-bottom:16px!important;
+  }
+  main .faq{
+    padding-right:0!important;
+  }
+  main .faq .resposta{
+    padding-right:0!important;
+  }
+  main .fases{
+    padding-right:0!important;
+  }
+  /* Rótulos de seção e listas continuam sem justificação. */
+  main .subbloco li,
+  main .doc-item,
+  main .compromissos li,
+  main .aviso-doc li,
+  main .editorial-corpo > ul > li{
+    text-align:left!important;
+    text-align-last:left!important;
+    -webkit-hyphens:none!important;
+    hyphens:none!important;
+  }
+}
+
+/* Rodapé segue centralizado, como antes. */
+.rodape-marca p,.rodape-legal p{
+  text-align:center!important;
+  text-align-last:center!important;
+}
+</style>
 
 </body>
 </html>
