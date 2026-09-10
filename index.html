@@ -4248,5 +4248,199 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+
+<style id="v8-modal-formulario-botao-visivel">
+/* ══════════════════════════════════════════════════════════════════════
+   V8 — MODAL DO FORMULÁRIO: o botão "Enviar formulário" nunca sai da tela.
+   Causas corrigidas:
+   1) 100vh no celular equivale à tela SEM a barra do navegador, então o
+      rodapé da caixa (onde está o botão) ficava por baixo da barra;
+      passamos a usar 100dvh (altura real visível), com 100vh de reserva.
+   2) A caixa inteira rolava: agora só o corpo rola e o botão fica fixo
+      no rodapé do modal, sempre visível.
+   3) O formulário do modal é um clone com IDs novos (#formContatoModal,
+      #btnEnviarFormularioModal) e por isso perdia os estilos mobile presos
+      ao ID original; os seletores abaixo valem para os dois.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.form-modal{
+  height:100vh;
+  height:100dvh;
+  align-items:flex-start;
+  overscroll-behavior:contain;
+}
+
+.form-modal-caixa{
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.form-modal-topo{flex:0 0 auto}
+.form-modal-corpo{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+
+/* Rodapé de ações: acompanha o rolar e fica sempre à vista. */
+.form-acoes-fixas{
+  position:sticky;
+  bottom:0;
+  z-index:3;
+  display:block;
+  margin:18px -22px -24px;
+  padding:12px 22px calc(12px + env(safe-area-inset-bottom,0px));
+  background:#fff;
+  border-top:1px solid var(--linha);
+  box-shadow:0 -8px 18px -12px rgba(15,23,42,.35);
+}
+.form-acoes-fixas .form-status{margin-top:8px}
+
+/* Botão de envio — vale para o formulário da página e para o do modal. */
+form[id^="formContato"] button[id^="btnEnviarFormulario"]{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:54px!important;
+  font-size:1rem!important;
+  font-weight:700!important;
+  background:#a3812f!important;
+  color:#fff!important;
+  border:1px solid #c5a059!important;
+  border-radius:6px!important;
+  opacity:1!important;
+  visibility:visible!important;
+  position:static!important;
+}
+form[id^="formContato"] button[id^="btnEnviarFormulario"]:disabled{
+  opacity:.75!important;
+  cursor:progress;
+}
+
+@media (max-width:959px){
+  .form-modal{
+    padding:8px 8px 0;
+  }
+  .form-modal-caixa{
+    width:100%!important;
+    max-height:calc(100vh - 16px)!important;
+    max-height:calc(100dvh - 16px)!important;
+    border-radius:7px!important;
+  }
+  .form-modal-corpo .form{
+    padding:18px 16px 20px!important;
+  }
+  .form-modal-corpo .form-acoes-fixas{
+    margin:16px -16px -20px!important;
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))!important;
+  }
+  /* Campos com 16px evitam o zoom automático do iOS ao focar. */
+  form[id^="formContato"] input,
+  form[id^="formContato"] select,
+  form[id^="formContato"] textarea{
+    width:100%!important;
+    font-size:16px!important;
+    min-height:50px!important;
+  }
+  form[id^="formContato"] textarea{min-height:110px!important}
+
+  /* O botão flutuante do WhatsApp não disputa espaço com o modal. */
+  body.modal-aberto .flutuante{display:none!important}
+}
+
+@media (max-width:420px){
+  .form-modal{padding:6px 6px 0}
+  .form-modal-caixa{max-height:calc(100vh - 12px)!important;max-height:calc(100dvh - 12px)!important}
+  .form-modal-corpo .form{padding:16px 14px 18px!important}
+  .form-modal-corpo .form-acoes-fixas{
+    margin:14px -14px -18px!important;
+    padding:11px 14px calc(11px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+</style>
+
+<script id="v8-modal-formulario-script">
+/* Move o botão de envio (e a mensagem de status) para um rodapé fixo
+   dentro do modal, de modo que ele fique sempre visível na tela. */
+(function(){
+  "use strict";
+
+  function montarRodape(form){
+    if(!form || form.dataset.rodapeFixo === "1") return;
+    var botao = form.querySelector('button[type="submit"]');
+    if(!botao) return;
+    var status = form.querySelector('.form-status');
+    var pe = document.createElement('div');
+    pe.className = 'form-acoes-fixas';
+    botao.parentNode.insertBefore(pe, botao);
+    pe.appendChild(botao);
+    if(status) pe.appendChild(status);
+    form.dataset.rodapeFixo = "1";
+  }
+
+  function ajustarAltura(){
+    var modal = document.getElementById('formModal');
+    if(!modal) return;
+    /* Reserva para navegadores sem suporte a dvh. */
+    var h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    modal.style.setProperty('--altura-real', h + 'px');
+    if(!CSS || !CSS.supports || !CSS.supports('height','100dvh')){
+      modal.style.height = h + 'px';
+      var caixa = modal.querySelector('.form-modal-caixa');
+      if(caixa) caixa.style.maxHeight = (h - 16) + 'px';
+    }
+  }
+
+  function iniciar(){
+    var corpo = document.getElementById('formModalCorpo') ||
+                document.querySelector('.form-modal-corpo');
+    if(!corpo) return;
+
+    /* O formulário do modal é criado só quando o usuário abre o modal. */
+    var obs = new MutationObserver(function(){
+      var f = corpo.querySelector('form');
+      if(f) montarRodape(f);
+      ajustarAltura();
+    });
+    obs.observe(corpo, {childList:true, subtree:true});
+
+    var jaExiste = corpo.querySelector('form');
+    if(jaExiste) montarRodape(jaExiste);
+
+    var gatilhos = document.querySelectorAll('[data-open-form]');
+    for(var i = 0; i < gatilhos.length; i++){
+      gatilhos[i].addEventListener('click', function(){
+        setTimeout(function(){
+          var f = corpo.querySelector('form');
+          if(f) montarRodape(f);
+          ajustarAltura();
+        }, 60);
+      });
+    }
+
+    ajustarAltura();
+    window.addEventListener('resize', ajustarAltura);
+    window.addEventListener('orientationchange', ajustarAltura);
+    if(window.visualViewport){
+      window.visualViewport.addEventListener('resize', ajustarAltura);
+    }
+  }
+
+  function seguro(){
+    try{ iniciar(); }catch(e){ /* nunca quebra a página */ }
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", seguro);
+  } else {
+    seguro();
+  }
+})();
+</script>
+
 </body>
 </html>
