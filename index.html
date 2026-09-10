@@ -3994,5 +3994,259 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 </style>
 
+
+<style id="v7-justificacao-mobile-hifenizada">
+/* ══════════════════════════════════════════════════════════════════════
+   V7 — JUSTIFICAÇÃO LIMPA NO MOBILE (última camada, prevalece sobre tudo)
+   Objetivo: texto justificado, bloco centralizado, última linha centrada
+   e SEM os vãos exagerados entre palavras. A solução combina:
+   1) medida de linha maior (mais caracteres por linha);
+   2) hifenização automática do navegador + hífens suaves inseridos por JS;
+   3) parágrafos muito curtos não são esticados.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width:959px){
+
+  /* 1) MEDIDA — mais caracteres por linha reduz o vão de forma estrutural. */
+  main .wrap{
+    width:100%!important;
+    max-width:none!important;
+    padding-left:16px!important;
+    padding-right:16px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+  main .medw,
+  main .editorial-corpo,
+  main .fases,
+  main .faq,
+  main .sobre-dados,
+  main .doc-lista{
+    width:100%!important;
+    max-width:none!important;
+    padding-right:0!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+
+  /* 2) TEXTO CORRIDO — justificado, centralizado no bloco, com hifenização. */
+  main p:not(.rotulo):not(.form-status):not(.sem-justificar),
+  main .secao p:not(.sem-justificar),
+  main .sobre-dados p:not(.sem-justificar),
+  main .intro p:not(.sem-justificar),
+  main .editorial-corpo p:not(.sem-justificar),
+  main .duvida p:not(.sem-justificar),
+  main .aviso-doc p:not(.sem-justificar),
+  main .form-topo p:not(.sem-justificar),
+  main .entrada-txt p:not(.sem-justificar),
+  main .fase p:not(.sem-justificar),
+  main .hero-sub:not(.sem-justificar),
+  main .hero-contato>p:not(.rotulo):not(.sem-justificar),
+  main .faq .resposta:not(.sem-justificar),
+  main .faq .resposta p:not(.sem-justificar){
+    display:block!important;
+    width:100%!important;
+    max-width:68ch!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+
+    text-align:justify!important;
+    text-align-last:center!important;
+    text-justify:inter-word!important;
+
+    -webkit-hyphens:auto!important;
+    -moz-hyphens:auto!important;
+    -ms-hyphens:auto!important;
+    hyphens:auto!important;
+    -webkit-hyphenate-limit-before:2;
+    -webkit-hyphenate-limit-after:3;
+    -webkit-hyphenate-limit-lines:2;
+    hyphenate-limit-chars:6 2 3;
+    hyphenate-limit-lines:2;
+
+    text-wrap:pretty;
+    overflow-wrap:break-word!important;
+    word-break:normal!important;
+    word-spacing:normal!important;
+    letter-spacing:0!important;
+    white-space:normal!important;
+
+    font-size:clamp(15.5px,4.2vw,17px)!important;
+    line-height:1.6!important;
+  }
+
+  /* 3) PARÁGRAFOS CURTOS — esticar 1 ou 2 linhas é o que mais gera vão.
+        A classe é aplicada pelo script conforme o tamanho do texto. */
+  body main p.sem-justificar:not(.rotulo):not(.form-status),
+  body main .hero-sub.sem-justificar,
+  body main .faq .resposta p.sem-justificar{
+    display:block!important;
+    width:100%!important;
+    max-width:68ch!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    text-align:center!important;
+    text-align-last:center!important;
+    text-justify:none!important;
+    hyphens:none!important;
+    -webkit-hyphens:none!important;
+    word-spacing:normal!important;
+    letter-spacing:0!important;
+    font-size:clamp(15.5px,4.2vw,17px)!important;
+    line-height:1.6!important;
+    text-wrap:balance;
+  }
+
+  /* 4) TÍTULOS, RÓTULOS E PERGUNTAS — centralizados, nunca justificados. */
+  main .titulo,main .titulo h2,main .titulo p,
+  main h1,main h2,main h3,main h4,
+  main .rotulo,main .fase h3,
+  main .hero-in,main .hero-contato,main .hero-contato h2,
+  main .hero-contato .rotulo,
+  main .entrada-txt,main .entrada-txt h2,
+  main .sobre-dados h2,main .form-topo,main .form-topo h3,
+  main .faq summary{
+    text-align:center!important;
+    text-align-last:center!important;
+    text-justify:none!important;
+    hyphens:none!important;
+    -webkit-hyphens:none!important;
+    word-spacing:normal!important;
+    letter-spacing:normal!important;
+    text-wrap:balance;
+  }
+
+  /* 5) LISTAS — alinhadas à esquerda, sem justificar e sem hífen. */
+  main .subbloco li,
+  main .doc-item,
+  main .compromissos li,
+  main .aviso-doc li,
+  main .editorial-corpo > ul > li{
+    text-align:left!important;
+    text-align-last:left!important;
+    text-justify:none!important;
+    hyphens:none!important;
+    -webkit-hyphens:none!important;
+    word-spacing:normal!important;
+    letter-spacing:normal!important;
+  }
+
+  /* 6) RODAPÉ — leitura limpa, sem justificação. */
+  .rodape-marca,.rodape-links,.rodape-legal{text-align:center!important}
+  .rodape-marca p,.rodape-legal p{
+    text-align:center!important;
+    text-align-last:center!important;
+    hyphens:none!important;
+    -webkit-hyphens:none!important;
+    word-spacing:normal!important;
+  }
+}
+
+/* Desktop: mantém a justificação já existente, agora com hifenização real. */
+@media (min-width:960px){
+  main .secao p,main .sobre-dados p,main .intro p,main .editorial-corpo p,
+  main .duvida p,main .aviso-doc p,main .form-topo p,main .entrada-txt p,
+  main .fase p,main .faq .resposta,main .faq .resposta p{
+    -webkit-hyphens:auto;
+    hyphens:auto;
+    hyphenate-limit-chars:6 2 3;
+    text-wrap:pretty;
+    word-spacing:normal;
+    letter-spacing:0;
+  }
+}
+</style>
+
+<script id="v7-hifenizacao-pt-br">
+/* Hifenização em português (hífens suaves invisíveis).
+   Garante quebra de palavras longas mesmo em navegadores sem dicionário
+   pt-BR, o que é o que realmente elimina os vãos da justificação. */
+(function(){
+  "use strict";
+  var SHY = "\u00AD";
+  var VOG = "a\u00E1\u00E0\u00E2\u00E3e\u00E9\u00EAi\u00EDo\u00F3\u00F4\u00F5u\u00FA\u00FCy";
+  var CLUSTER = {bl:1,br:1,cl:1,cr:1,dl:1,dr:1,fl:1,fr:1,gl:1,gr:1,pl:1,pr:1,
+                 tl:1,tr:1,vl:1,vr:1,ch:1,lh:1,nh:1,gu:1,qu:1,ph:1,th:1};
+
+  function ehVogal(c){ return VOG.indexOf(c) >= 0; }
+  function ehConsoante(c){ return /[a-z\u00E7\u00F1]/.test(c) && !ehVogal(c); }
+
+  function cortes(p){
+    var s = p.toLowerCase(), n = s.length, r = [], i, j, k, corte;
+    for(i = 0; i < n; i++){
+      if(!ehVogal(s.charAt(i))) continue;
+      j = i + 1; k = 0;
+      while(j + k < n && ehConsoante(s.charAt(j + k))) k++;
+      if(k === 0) continue;
+      if(j + k >= n) continue;
+      if(!ehVogal(s.charAt(j + k))) continue;
+      if(k === 1){ corte = j; }
+      else if(k === 2){ corte = CLUSTER[s.substr(j, 2)] ? j : j + 1; }
+      else if(k === 3){ corte = CLUSTER[s.substr(j + 1, 2)] ? j + 1 : j + 2; }
+      else { corte = j + k - 2; }
+      if(corte > 0) r.push(corte);
+    }
+    return r;
+  }
+
+  function hifenizar(p){
+    if(p.length < 6) return p;                        // palavras curtas: intactas
+    if(!/^[A-Za-z\u00C0-\u00FF]+$/.test(p)) return p; // números, siglas com ponto, URLs
+    if(/[A-Z\u00C0-\u00DD]/.test(p.substr(1))) return p; // siglas e nomes tipo OAB, WhatsApp
+    var pts = cortes(p), out = "", prev = 0, i, c;
+    for(i = 0; i < pts.length; i++){
+      c = pts[i];
+      if(c < 2 || p.length - c < 3) continue;         // nunca deixa 1 letra solta
+      out += p.slice(prev, c) + SHY;
+      prev = c;
+    }
+    return prev ? out + p.slice(prev) : p;
+  }
+
+  function tratarTexto(t){
+    if(t.nodeValue.indexOf(SHY) >= 0) return;
+    var novo = t.nodeValue.replace(/[A-Za-z\u00C0-\u00FF]{6,}/g, hifenizar);
+    if(novo !== t.nodeValue) t.nodeValue = novo;
+  }
+
+  var SEL = "main .secao p, main .sobre-dados p, main .intro p," +
+            "main .editorial-corpo p, main .duvida p, main .aviso-doc p," +
+            "main .form-topo p, main .entrada-txt p, main .fase p," +
+            "main .hero-sub, main .hero-contato > p, main .faq .resposta," +
+            "main .faq .resposta p, main .doc-item p";
+  var IGNORAR = /^(SCRIPT|STYLE|CODE|A|BUTTON|SUMMARY|H1|H2|H3|H4|LABEL|INPUT)$/;
+
+  function processar(el){
+    if(el.classList.contains("rotulo") || el.classList.contains("form-status")) return;
+    if(el.dataset.hifenizado === "1") return;
+    el.dataset.hifenizado = "1";
+
+    // Parágrafos curtos não são justificados (é onde o vão fica pior).
+    var bruto = (el.textContent || "").trim();
+    if(bruto.length && bruto.length < 90) el.classList.add("sem-justificar");
+
+    var it = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false), n;
+    var lista = [];
+    while((n = it.nextNode())){
+      if(n.parentNode && IGNORAR.test(n.parentNode.nodeName)) continue;
+      lista.push(n);
+    }
+    for(var i = 0; i < lista.length; i++) tratarTexto(lista[i]);
+  }
+
+  function iniciar(){
+    try{
+      var els = document.querySelectorAll(SEL), i;
+      for(i = 0; i < els.length; i++) processar(els[i]);
+    }catch(e){ /* nunca quebra a página */ }
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
+})();
+</script>
+
 </body>
 </html>
