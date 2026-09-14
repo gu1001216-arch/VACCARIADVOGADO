@@ -39,7 +39,7 @@ p{margin:0 0 1.1em;max-width:70ch}
 .cab-in{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,44px);
   height:76px;display:flex;align-items:center;gap:22px}
 .marca{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
-.marca img{height:42px;width:auto;aspect-ratio:900/267;object-fit:contain;max-width:44vw}
+.marca img{height:58px;width:auto;aspect-ratio:1000/297;object-fit:contain;max-width:50vw}
 .nav-d{margin-left:auto;display:none}
 .nav-d>ul{list-style:none;display:flex;gap:26px;margin:0;padding:0;align-items:center}
 .nav-d a{text-decoration:none;font-size:.88rem;font-weight:500;color:var(--carvao-2);
@@ -158,9 +158,9 @@ p{margin:0 0 1.1em;max-width:70ch}
   .dest-inv .dest-txt{order:2}}
 .dest-fig{position:relative;overflow:hidden}
 .dest-fig img{width:100%;aspect-ratio:16/10;object-fit:cover}
-.dest-fig-retrato{max-width:380px;margin:0 auto;box-shadow:var(--sombra-2,0 20px 50px -24px rgba(15,23,42,.4))}
-.dest-fig-retrato img{aspect-ratio:2/3;object-position:top center}
-@media(min-width:900px){.dest-fig-retrato{max-width:none;margin:0}}
+.dest-fig-retrato{max-width:380px;margin:0 auto;border:1px solid var(--linha);background:var(--papel-2)}
+.dest-fig-retrato img{aspect-ratio:4/5;object-fit:cover;object-position:center 22%}
+@media(min-width:900px){.dest-fig-retrato{max-width:340px;margin:0}}
 .dest-txt h2{margin-bottom:.4em}
 .dest-lista{list-style:none;padding:0;margin:0 0 1.6rem}
 .dest-lista li{position:relative;padding-left:20px;margin-bottom:.5rem;font-size:.93rem;
@@ -256,7 +256,7 @@ p{margin:0 0 1.1em;max-width:70ch}
   font-size:.87rem}
 .rod-grade{display:grid;gap:34px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
   padding-bottom:34px;border-bottom:1px solid rgba(255,255,255,.1)}
-.rod-marca img{height:50px;width:auto;aspect-ratio:900/267;object-fit:contain;margin-bottom:16px}
+.rod-marca img{height:56px;width:auto;aspect-ratio:1000/297;object-fit:contain;margin-bottom:16px}
 .rod h5{font-family:"Inter",sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.15em;
   text-transform:uppercase;color:var(--latao-claro);margin:0 0 13px}
 .rod ul{list-style:none;margin:0;padding:0}
@@ -276,10 +276,10 @@ p{margin:0 0 1.1em;max-width:70ch}
 
 /* ── Ajustes finos mobile ── */
 @media(max-width:760px){
-  .cab-in{height:68px;gap:14px}
-  .marca img{height:34px}
+  .cab-in{height:72px;gap:14px}
+  .marca img{height:46px}
   .cab-zap{display:none}          /* CTA vive no botão flutuante e na gaveta */
   .hero-btns{gap:11px}
   .zap-flut{right:14px;bottom:14px}
 }
-@media(max-width:400px){ .marca img{height:30px} }
+@media(max-width:400px){ .marca img{height:40px} }
