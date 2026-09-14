@@ -30,7 +30,7 @@ gtag('js',new Date());gtag('config','G-J36ETHSGXQ');</script>
 <header class="cab">
 <div class="cab-in">
 <a class="marca" href="/" aria-label="Vaccari Advocacia — página inicial">
-<img src="/assets/img/logo.png" alt="Vaccari Advocacia — Direito Imobiliário" width="900" height="300"></a>
+<img src="/assets/img/logo.png" alt="Vaccari Advocacia — Direito Imobiliário" width="900" height="267"></a>
 <nav class="nav-d" aria-label="Navegação principal"><ul>
 <li><a href="/">Início</a></li>
 <li class="tem-sub"><a href="/direito-imobiliario/">Áreas de atuação</a>
@@ -92,17 +92,28 @@ gtag('js',new Date());gtag('config','G-J36ETHSGXQ');</script>
 <p class="rotulo">Contato</p><h2>Enviar informações do imóvel</h2>
 <p class="lead">Descreva a situação e informe a cidade do imóvel. A partir dos documentos é possível indicar qual instrumento se aplica.</p>
 <form class="form" id="formContato" novalidate>
-<div class="campo"><label for="f-nome">Nome</label><input id="f-nome" name="nome" required autocomplete="name"></div>
-<div class="campo"><label for="f-zap">WhatsApp</label><input id="f-zap" name="whatsapp" required inputmode="tel" autocomplete="tel"></div>
-<div class="campo"><label for="f-mail">E-mail</label><input id="f-mail" name="email" type="email" autocomplete="email"></div>
-<div class="campo"><label for="f-cid">Cidade do imóvel</label><input id="f-cid" name="cidade"></div>
-<div class="campo"><label for="f-tipo">Tipo de imóvel</label><select id="f-tipo" name="tipo">
+<div class="campo"><label for="formContato-nome">Nome completo</label>
+<input id="formContato-nome" name="Nome" type="text" autocomplete="name" placeholder="Seu nome"></div>
+<div class="campo"><label for="formContato-fone">Telefone / WhatsApp</label>
+<input id="formContato-fone" name="Telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(48) 9 9999-9999"></div>
+<div class="campo"><label for="formContato-mail">E-mail</label>
+<input id="formContato-mail" name="E-mail" type="email" autocomplete="email" placeholder="voce@email.com"></div>
+<div class="campo"><label for="formContato-cid">Cidade do imóvel</label>
+<input id="formContato-cid" name="Cidade do imóvel" type="text" placeholder="Cidade"></div>
+<div class="campo"><label for="formContato-tipo">Tipo de imóvel</label>
+<select id="formContato-tipo" name="Tipo de imóvel">
 <option>Urbano</option><option>Rural</option><option>Ainda não sei</option></select></div>
-<div class="campo"><label for="f-ass">Assunto</label><select id="f-ass" name="assunto"><option>Usucapião</option><option>Regularização de imóveis</option><option>Adjudicação compulsória</option><option>Contratos imobiliários</option><option>Posse e propriedade</option><option>Imóveis rurais</option><option>Desapropriação</option><option>Servidão administrativa</option><option>Registro de imóveis</option><option selected>Compra e venda de imóveis</option><option>Parcelamento do solo</option><option>Litígios imobiliários</option></select></div>
-<div class="campo campo-full"><label for="f-desc">Descreva brevemente a situação</label>
-<textarea id="f-desc" name="descricao" required></textarea></div>
-<div class="campo campo-full"><button class="btn btn-mar" type="submit" data-cta="formulario-enviar">Enviar informações do imóvel</button></div>
-<p class="form-aviso">Ao enviar, o conteúdo é organizado e aberto no WhatsApp para que você confirme o envio. O contato inicial não gera relação profissional, que depende de contrato escrito.</p>
+<div class="campo"><label for="formContato-ass">Situação</label>
+<select id="formContato-ass" name="Situação"><option value="">Selecione</option><option>Usucapião</option><option>Regularização de imóveis</option><option>Adjudicação compulsória</option><option>Contratos imobiliários</option><option>Posse e propriedade</option><option>Imóveis rurais</option><option>Desapropriação</option><option>Servidão administrativa</option><option>Registro de imóveis</option><option selected>Compra e venda de imóveis</option><option>Parcelamento do solo</option><option>Litígios imobiliários</option>
+<option>Ainda não sei identificar</option></select></div>
+<div class="campo campo-full"><label for="formContato-desc">Relato</label>
+<textarea id="formContato-desc" name="Relato" placeholder="Descreva brevemente a situação do imóvel."></textarea></div>
+<p class="campo-full form-regra">Para enviar, informe ao menos o telefone/WhatsApp ou o e-mail. Os demais campos são opcionais.</p>
+<div class="campo campo-full">
+<button class="btn btn-mar" type="submit" id="formContato-btn" data-cta="formulario-enviar">Enviar informações do imóvel</button>
+<p class="form-status" id="formContato-status" role="status" aria-live="polite"></p>
+</div>
+<p class="form-aviso">O envio deste formulário não gera relação profissional entre as partes, que depende de contrato escrito.</p>
 </form>
 <p class="rotulo" style="margin-top:3rem">Áreas relacionadas</p>
 <div class="rel"><a href="/contratos-imobiliarios/">Contratos imobiliários</a><a href="/adjudicacao-compulsoria/">Adjudicação compulsória</a><a href="/registro-de-imoveis/">Registro de imóveis</a><a href="/imoveis-rurais/">Imóveis rurais</a></div>
@@ -119,14 +130,14 @@ gtag('js',new Date());gtag('config','G-J36ETHSGXQ');</script>
 <footer class="rod"><div class="env">
 <div class="rod-grade">
 <div class="rod-marca">
-<img src="/assets/img/logo-claro.png" alt="Vaccari Advocacia" width="900" height="300" loading="lazy">
+<img src="/assets/img/logo-claro.png" alt="Vaccari Advocacia — Direito Imobiliário" width="900" height="267" loading="lazy">
 <p style="color:#9aa3ad;font-size:.85rem;max-width:30ch;margin:0">Direito Imobiliário.<br>Atuação em todo o Estado de Santa Catarina.</p>
 </div>
 <div><h5>Propriedade e posse</h5><ul><li><a href="/usucapiao/">Usucapião</a></li><li><a href="/posse-e-propriedade/">Posse e propriedade</a></li><li><a href="/regularizacao-de-imoveis/">Regularização de imóveis</a></li><li><a href="/registro-de-imoveis/">Registro de imóveis</a></li><li><a href="/adjudicacao-compulsoria/">Adjudicação compulsória</a></li></ul></div><div><h5>Negócios imobiliários</h5><ul><li><a href="/contratos-imobiliarios/">Contratos imobiliários</a></li><li><a href="/compra-e-venda-de-imoveis/">Compra e venda de imóveis</a></li><li><a href="/parcelamento-do-solo/">Parcelamento do solo</a></li></ul></div><div><h5>Imóveis rurais</h5><ul><li><a href="/imoveis-rurais/">Imóveis rurais</a></li><li><a href="/usucapiao/">Usucapião rural</a></li><li><a href="/registro-de-imoveis/">Georreferenciamento e divisas</a></li></ul></div><div><h5>Obras e conflitos</h5><ul><li><a href="/desapropriacao/">Desapropriação</a></li><li><a href="/servidao-administrativa/">Servidão administrativa</a></li><li><a href="/litigios-imobiliarios/">Litígios imobiliários</a></li></ul></div>
 </div>
 <p class="rod-aviso">Este site tem caráter informativo e institucional, nos termos do Provimento 205/2021 do Conselho Federal da OAB. As informações aqui reunidas não substituem a análise de um caso concreto, que depende do exame da documentação específica do imóvel. Nenhum conteúdo desta página constitui promessa de resultado.</p>
 <div class="rod-base">
-<div>Vaccari Advocacia &middot; Gustavo Paris Vaccari &middot; OAB/SC 78.771 &middot; Palhoça, Santa Catarina</div>
+<div>Vaccari Advocacia &middot; Palhoça, Santa Catarina</div>
 <div><a href="/politica-de-privacidade/">Política de privacidade</a> &middot; <a href="/contato/">Contato</a></div>
 </div></div></footer>
 <a class="zap-flut" href="https://wa.me/5548998398989?text=Ol%C3%A1%2C%20Dr.%20Gustavo.%20Gostaria%20de%20enviar%20informa%C3%A7%C3%B5es%20sobre%20uma%20situa%C3%A7%C3%A3o%20envolvendo%20meu%20im%C3%B3vel%20para%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener" data-cta="botao-flutuante" aria-label="Falar pelo WhatsApp">

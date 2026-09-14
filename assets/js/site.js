@@ -62,25 +62,82 @@
     });
   }
 
-  /* ── Formulário → WhatsApp ── */
-  function formulario() {
-    var f = document.getElementById("formContato");
-    if (!f) return;
+  /* ── Formulário → envio real de e-mail via FormSubmit ── */
+  var FORM_EMAIL = "gustavoparisvaccari" + "@" + "gmail.com";
+
+  function validarContato(f) {
+    var tel = f.querySelector('[name="Telefone"]'),
+      mail = f.querySelector('[name="E-mail"]'),
+      campoTel = tel ? tel.closest(".campo") : null,
+      campoMail = mail ? mail.closest(".campo") : null,
+      aviso = f.querySelector(".form-aviso-contato");
+    if (campoTel) campoTel.classList.remove("campo-invalido");
+    if (campoMail) campoMail.classList.remove("campo-invalido");
+    if (aviso) aviso.remove();
+    var vTel = tel ? tel.value.trim() : "", vMail = mail ? mail.value.trim() : "";
+    if (!vTel && !vMail) {
+      if (campoTel) campoTel.classList.add("campo-invalido");
+      if (campoMail) campoMail.classList.add("campo-invalido");
+      var novo = document.createElement("p");
+      novo.className = "form-aviso-contato";
+      novo.textContent = "Informe pelo menos um contato: telefone/WhatsApp ou e-mail.";
+      var ref = campoMail || campoTel || f.firstElementChild;
+      if (ref && ref.parentNode) ref.parentNode.insertBefore(novo, ref.nextSibling);
+      return false;
+    }
+    return true;
+  }
+
+  function formulario(f) {
+    var status = f.querySelector(".form-status"),
+      btn = f.querySelector('button[type="submit"]');
+
+    function setStatus(texto, ok) {
+      if (!status) return;
+      status.className = "form-status" + (ok ? " ok" : ok === false ? " erro" : "");
+      status.textContent = texto || "";
+    }
+
     f.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!f.reportValidity()) return;
-      var d = new FormData(f), L = [];
-      d.forEach(function (v, k) {
-        v = String(v).trim();
-        if (v) L.push(k.replace(/^./, function (c) { return c.toUpperCase(); }) + ": " + v);
-      });
-      ev("formulario_envio", { area_form: d.get("assunto") || "" });
-      var txt = "Olá, Dr. Gustavo. Enviando informações sobre meu imóvel:\n\n" + L.join("\n");
-      window.open("https://wa.me/5548998398989?text=" + encodeURIComponent(txt), "_blank", "noopener");
+      if (!validarContato(f)) return;
+      btn.disabled = true;
+      var textoOriginal = btn.textContent;
+      btn.textContent = "Enviando…";
+      setStatus("Enviando suas informações…", null);
+
+      var dados = Object.fromEntries(new FormData(f).entries());
+      fetch("https://formsubmit.co/ajax/" + FORM_EMAIL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(Object.assign({}, dados, {
+          _subject: "Novo contato pelo site — " + (dados["Nome"] || "Sem nome"),
+          _template: "table",
+          _captcha: "false",
+          Página: location.pathname,
+        })),
+      })
+        .then(function (r) { if (!r.ok) throw new Error("Falha no envio"); return r.json(); })
+        .then(function () {
+          f.reset();
+          setStatus("Formulário enviado com sucesso. Você receberá um retorno em breve.", true);
+          ev("formulario_envio", { area_form: dados["Situação"] || "" });
+        })
+        .catch(function () {
+          setStatus("Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp.", false);
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = textoOriginal;
+        });
     });
   }
 
-  function iniciar() { menu(); rastrear(); formulario(); }
+  function iniciar() {
+    menu();
+    rastrear();
+    document.querySelectorAll("form.form").forEach(formulario);
+  }
   document.readyState === "loading"
     ? document.addEventListener("DOMContentLoaded", iniciar)
     : iniciar();
